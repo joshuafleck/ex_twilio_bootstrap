@@ -67,10 +67,19 @@ defmodule TwilioBootstrap.Application do
 
   @spec settings_for_update :: map
   defp settings_for_update do
-    public_url = Application.get_env(:ex_twilio_bootstrap, :public_url)
     %{
       voice_url: public_url <> "/voice",
       sms_url: public_url <> "/sms"
     }
+  end
+
+  @spec public_url :: String.t
+  defp public_url do
+    url = Application.get_env(:ex_twilio_bootstrap, :public_url)
+    if is_function(url) do
+      url.()
+    else
+      url
+    end
   end
 end
