@@ -4,7 +4,18 @@ Bootstraps a Twilio application and telephone number upon startup to ease develo
 
 ## Installation
 
-Add ex_twilio_bootstrap to your `mix.exs` dependencies:
+Add ex_twilio_bootstrap to your `mix.exs` dependencies...
+
+from Hex:
+
+```elixir
+def deps do
+  [{:ex_twilio_bootstrap, "0.1.0"}]
+end
+```
+
+or, from Github:
+
 
 ```elixir
 def deps do
