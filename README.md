@@ -23,7 +23,7 @@ def deps do
 end
 ```
 
-Now, list the :ex_twilio_bootstrap application as your application dependency:
+Include :ex_twilio_bootstrap as an application dependency:
 
 ```elixir
 def application do
