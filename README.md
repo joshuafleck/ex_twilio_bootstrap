@@ -10,7 +10,7 @@ from Hex:
 
 ```elixir
 def deps do
-  [{:ex_twilio_bootstrap, "0.1.0"}]
+  [{:ex_twilio_bootstrap, "~> 0.1.0"}]
 end
 ```
 
