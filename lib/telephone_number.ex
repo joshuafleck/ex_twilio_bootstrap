@@ -7,7 +7,7 @@ defmodule TwilioBootstrap.TelephoneNumber do
   require Logger
 
   def start_link do
-    Agent.start_link(fn -> bootstrap end, name: __MODULE__)
+    Agent.start_link(fn -> bootstrap() end, name: __MODULE__)
   end
 
   @doc """
@@ -20,7 +20,7 @@ defmodule TwilioBootstrap.TelephoneNumber do
 
   @spec bootstrap :: %ExTwilio.IncomingPhoneNumber{}
   defp bootstrap do
-    case find_or_create do
+    case find_or_create() do
       {:ok, telephone_number} ->
         telephone_number
         |> announce
