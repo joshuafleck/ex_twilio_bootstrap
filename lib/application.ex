@@ -7,7 +7,7 @@ defmodule TwilioBootstrap.Application do
   require Logger
 
   def start_link do
-    Agent.start_link(fn -> bootstrap end, name: __MODULE__)
+    Agent.start_link(fn -> bootstrap() end, name: __MODULE__)
   end
 
   @doc """
@@ -20,7 +20,7 @@ defmodule TwilioBootstrap.Application do
 
   @spec bootstrap :: %ExTwilio.Application{}
   defp bootstrap do
-    case find_or_create do
+    case find_or_create() do
       {:ok, application} ->
         application
         |> announce
@@ -46,7 +46,7 @@ defmodule TwilioBootstrap.Application do
       false ->
         ExTwilio.Application.create(settings_for_create(friendly_name))
       application ->
-        ExTwilio.Application.update(application, settings_for_update)
+        ExTwilio.Application.update(application, settings_for_update())
     end
   end
 
@@ -62,14 +62,14 @@ defmodule TwilioBootstrap.Application do
 
   @spec settings_for_create(String.t) :: map
   defp settings_for_create(friendly_name) do
-    Map.put(settings_for_update, :friendly_name, friendly_name)
+    Map.put(settings_for_update(), :friendly_name, friendly_name)
   end
 
   @spec settings_for_update :: map
   defp settings_for_update do
     %{
-      voice_url: public_url <> "/voice",
-      sms_url: public_url <> "/sms"
+      voice_url: public_url() <> "/voice",
+      sms_url: public_url() <> "/sms"
     }
   end
 
