@@ -3,14 +3,13 @@ defmodule TwilioBootstrap.Mixfile do
 
   def project do
     [app: :ex_twilio_bootstrap,
-     version: "0.1.1",
+     version: "0.1.2",
      elixir: "~> 1.3",
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
      deps: deps(),
      package: package(),
-     description: description(),
-     dialyzer: [plt_add_deps: :transitive]]
+     description: description()]
   end
 
   def application do
@@ -25,10 +24,10 @@ defmodule TwilioBootstrap.Mixfile do
   end
 
   defp deps do
-    [{:ex_twilio, "~> 0.2"},
-     {:ex_doc, "~> 0.14", only: :dev},
-     {:credo, "~> 0.5", only: [:dev, :test]},
-     {:dialyxir, "~> 0.4", only: [:dev]}]
+    [{:ex_twilio, "~> 0.3"},
+     {:ex_doc, "~> 0.15", only: :dev},
+     {:credo, "~> 0.7", only: [:dev, :test]},
+     {:dialyxir, "~> 0.5", only: [:dev], runtime: false}]
   end
 
   defp description do
