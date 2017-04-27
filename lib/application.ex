@@ -6,6 +6,8 @@ defmodule TwilioBootstrap.Application do
   """
   require Logger
 
+  @type t :: %ExTwilio.Application{}
+
   def start_link do
     Agent.start_link(fn -> bootstrap() end, name: __MODULE__)
   end
@@ -13,12 +15,12 @@ defmodule TwilioBootstrap.Application do
   @doc """
   Fetches the Twilio application
   """
-  @spec get :: %ExTwilio.Application{}
+  @spec get :: t
   def get do
     Agent.get(__MODULE__, fn application -> application end)
   end
 
-  @spec bootstrap :: %ExTwilio.Application{}
+  @spec bootstrap :: t
   defp bootstrap do
     case find_or_create() do
       {:ok, application} ->
@@ -29,7 +31,7 @@ defmodule TwilioBootstrap.Application do
     end
   end
 
-  @spec announce(%ExTwilio.Application{}) :: %ExTwilio.Application{}
+  @spec announce(t) :: t
   defp announce(application) do
     Logger.info "ex_twilio_bootstrap: Boostrapped Twilio application \
 '#{application.friendly_name}'\n\
@@ -39,18 +41,18 @@ defmodule TwilioBootstrap.Application do
     application
   end
 
-  @spec find_or_create :: {:ok, %ExTwilio.Application{}} | {:error, String.t, number}
+  @spec find_or_create :: {:ok, t} | {:error, String.t, number}
   defp find_or_create do
     friendly_name = Application.get_env(:ex_twilio_bootstrap, :application_friendly_name)
     case find(friendly_name) do
       false ->
         ExTwilio.Application.create(settings_for_create(friendly_name))
       application ->
-        ExTwilio.Application.update(application, settings_for_update())
+        ExTwilio.Application.update(application.sid, settings_for_update())
     end
   end
 
-  @spec find(String.t) :: %ExTwilio.Application{} | false
+  @spec find(String.t) :: t | false
   defp find(friendly_name) do
     case ExTwilio.Application.all([{:friendly_name, friendly_name}]) do
       [] ->
@@ -60,17 +62,17 @@ defmodule TwilioBootstrap.Application do
     end
   end
 
-  @spec settings_for_create(String.t) :: map
+  @spec settings_for_create(String.t) :: Keyword.t
   defp settings_for_create(friendly_name) do
-    Map.put(settings_for_update(), :friendly_name, friendly_name)
+    Keyword.put(settings_for_update(), :friendly_name, friendly_name)
   end
 
-  @spec settings_for_update :: map
+  @spec settings_for_update :: Keyword.t
   defp settings_for_update do
-    %{
-      voice_url: public_url() <> "/voice",
-      sms_url: public_url() <> "/sms"
-    }
+    [
+      {:voice_url, public_url() <> "/voice"},
+      {:sms_url, public_url() <> "/sms"}
+    ]
   end
 
   @spec public_url :: String.t
