@@ -54,11 +54,11 @@ When you application is started, ex_twilio_bootstrap will log into your Twilio
 account and check the following:
 
 1. Do you have an programmable voice application named per the configured `application_friendly_name`?
-  - If yes, set its `/voice` and `/sms` URLs to use the configured `public_url` respectively
-  - If no, creates a programmable voice application setting its URLs as described above
+   - If yes, set its `/voice` and `/sms` URLs to use the configured `public_url` respectively
+   - If no, creates a programmable voice application setting its URLs as described above
 1. Do you have a phone number named per the `telephone_number_friendly_name`?
-  - If yes, set its voice and messaging URLs to point to those of the application described in the previous step
-  - If no, purchases a local telephone number in the country of the configured `iso_country_code` setting its URLs as described above **Note: this will charge your Twilio account**
+   - If yes, set its voice and messaging URLs to point to those of the application described in the previous step
+   - If no, purchases a local telephone number in the country of the configured `iso_country_code` setting its URLs as described above **Note: this will charge your Twilio account**
 
 Your application may access the application or telephone number settings via the following
 
